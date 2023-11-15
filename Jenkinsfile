@@ -5,6 +5,7 @@ pipeline {
   agent any
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
+    BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
   }
   options{
       skipDefaultCheckout()
@@ -51,7 +52,7 @@ pipeline {
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc --tag branch=env.BRANCH_NAME ."""
+            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc --tag branch=BRANCH_NAME ."""
           }
         }
     }    
