@@ -9,15 +9,21 @@ pipeline {
 
   stages {
     stage("init") {
+      script {
         curl https://cdn.shiftleft.io/download/sl > /tmp/sl && chmod a+rx /tmp/sl
+          }
     }
     stage("build") {
         steps {
+          script {
             mvn clean build
+          }
         }
     stage("QWiet NextGen Scanning") {
         steps {
-            sh '/tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME .'
+          script {
+            /tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME .
+          }
         }    
     stage("Check-Analysis") {
         when {
@@ -26,7 +32,9 @@ pipeline {
           }
         }
         steps {
-          sh '/tmp/sl check-analysis --config qwietbuildrules.yml --app HelloShiftLeft10 '
+          script {
+            /tmp/sl check-analysis --config qwietbuildrules.yml --app HelloShiftLeft10 
+          }
         }           
     }
   }
