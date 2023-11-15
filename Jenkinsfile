@@ -40,12 +40,14 @@ pipeline {
             sh """mvn clean build"""
           }
         }
+    }
     stage("QWiet NextGen Scanning") {
         steps {
           script {
             sh """/tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME ."""
           }
-        }    
+        }
+    }    
     stage("Check-Analysis") {
         when {
           expression {
