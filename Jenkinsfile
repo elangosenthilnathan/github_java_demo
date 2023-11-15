@@ -59,7 +59,7 @@ pipeline {
         when {
           anyOf {
               changeRequest()
-              branch BRANCH_MAIN
+              branch main
           }
         }
         steps {
