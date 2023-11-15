@@ -1,7 +1,5 @@
 #!groovy
 
-CODE_CHANGES = getGitChanges()
-
 pipeline {
   
   agent any
@@ -27,6 +25,15 @@ pipeline {
             }
         }
     }    
+    stage('checkout') {
+      steps {
+        git(
+        url: 'https://github.com/elangosenthilnathan/github_java_demo.git',
+        credentialsId: 'github_user',
+        branch: "main"
+        )
+      }
+    }
     stage("init") {
       steps {
           script {
