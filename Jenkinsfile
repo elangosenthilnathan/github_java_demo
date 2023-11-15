@@ -30,7 +30,7 @@ pipeline {
     stage("init") {
       steps {
           script {
-            curl https://cdn.shiftleft.io/download/sl > /tmp/sl && chmod a+rx /tmp/sl
+            sh """curl https://cdn.shiftleft.io/download/sl > /tmp/sl && chmod a+rx /tmp/sl"""
           }
       }
     }
