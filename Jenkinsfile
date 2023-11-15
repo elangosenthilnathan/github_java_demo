@@ -1,3 +1,5 @@
+#!groovy
+
 CODE_CHANGES = getGitChanges()
 
 pipeline {
@@ -6,12 +8,31 @@ pipeline {
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
   }
-
+  options{
+      skipDefaultCheckout()
+      disableConcurrentBuilds()
+  }  
+  triggers {
+      pollSCM('0 8 * * 0')
+  }
   stages {
+    stage('cleanUp') {
+        steps {
+            script {
+                try {
+                    deleteDir()
+                } catch (err) {
+                    println("WARNING: Failed to delete directory: " + err)
+                }
+            }
+        }
+    }    
     stage("init") {
-      script {
-        curl https://cdn.shiftleft.io/download/sl > /tmp/sl && chmod a+rx /tmp/sl
+      steps {
+          script {
+            curl https://cdn.shiftleft.io/download/sl > /tmp/sl && chmod a+rx /tmp/sl
           }
+      }
     }
     stage("build") {
         steps {
