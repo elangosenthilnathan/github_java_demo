@@ -58,12 +58,6 @@ pipeline {
         }
     }    
     stage("Check-Analysis") {
-        when {
-          anyOf {
-              changeRequest()
-              branch main
-          }
-        }
         steps {
           script {
             sh """/tmp/sl check-analysis --config qwietbuildrules.yml --app HelloShiftLeft10 """
