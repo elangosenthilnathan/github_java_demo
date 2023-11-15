@@ -44,7 +44,7 @@ pipeline {
     stage("build") {
         steps {
           script {
-            sh """mvn clean build"""
+            sh """mvn compile package"""
           }
         }
     }
