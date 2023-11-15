@@ -37,13 +37,13 @@ pipeline {
     stage("build") {
         steps {
           script {
-            mvn clean build
+            sh """mvn clean build"""
           }
         }
     stage("QWiet NextGen Scanning") {
         steps {
           script {
-            /tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME .
+            sh """/tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME ."""
           }
         }    
     stage("Check-Analysis") {
