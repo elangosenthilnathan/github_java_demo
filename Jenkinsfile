@@ -54,7 +54,7 @@ pipeline {
         }
         steps {
           script {
-            /tmp/sl check-analysis --config qwietbuildrules.yml --app HelloShiftLeft10 
+            sh """/tmp/sl check-analysis --config qwietbuildrules.yml --app HelloShiftLeft10 """
           }
         }           
     }
