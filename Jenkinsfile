@@ -51,7 +51,7 @@ pipeline {
     stage("QWiet NextGen Scanning") {
         steps {
           script {
-            sh """/tmp/sl analyze --app HelloShiftLeft10 --javasrc --tag branch=$BRANCH_NAME ."""
+            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc --tag branch=BRANCH_NAME ."""
           }
         }
     }    
