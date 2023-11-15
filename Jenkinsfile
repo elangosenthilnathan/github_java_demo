@@ -5,7 +5,7 @@ pipeline {
   agent any
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
-    BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+    BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
   }
   options{
       skipDefaultCheckout()
