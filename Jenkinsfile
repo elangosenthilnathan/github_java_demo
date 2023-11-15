@@ -48,7 +48,7 @@ pipeline {
           }
         }
     }
-    stage("QWiet NextGen Scanning") {
+    stage("Qwiet NextGen Scanning") {
         steps {
           script {
             sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc --tag branch=BRANCH_NAME ."""
@@ -57,8 +57,9 @@ pipeline {
     }    
     stage("Check-Analysis") {
         when {
-          expression {
-            CODE_CHANGES == true
+          anyOf {
+              changeRequest()
+              branch BRANCH_MAIN
           }
         }
         steps {
