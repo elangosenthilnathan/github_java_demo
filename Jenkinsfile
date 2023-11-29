@@ -3,7 +3,7 @@
 pipeline {
   
   agent { docker { image 'shiftleft/core:latest' } }
-  
+
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
     FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}" 
@@ -45,17 +45,10 @@ pipeline {
           }
       }
     }
-    stage("build") {
-        steps {
-          script {
-            sh """mvn compile package"""
-          }
-        }
-    }
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --java target/*.jar """
+            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
