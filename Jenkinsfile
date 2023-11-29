@@ -2,7 +2,8 @@
 
 pipeline {
   
-  agent any
+  agent { docker { image 'shiftleft/core:latest' } }
+  
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
     FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}" 
@@ -15,6 +16,7 @@ pipeline {
   triggers {
       pollSCM('0 8 * * 0')
   }
+
   stages {
     stage('cleanUp') {
         steps {
