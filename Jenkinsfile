@@ -42,14 +42,14 @@ pipeline {
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """app/sl analyze --wait --version-id v0.9.2150 --app HelloShiftLeft10 --javasrc . """
+            sh """sl analyze --wait --version-id v0.9.2150 --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
     stage("Check-Analysis") {
         steps {
           script {
-            sh """app/sl check-analysis --config shiftleft.yml --app HelloShiftLeft10 """
+            sh """sl check-analysis --config shiftleft.yml --app HelloShiftLeft10 """
           }
         }           
     }
