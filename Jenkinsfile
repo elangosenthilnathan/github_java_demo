@@ -38,7 +38,7 @@ pipeline {
         )
       }
     }
-    stage("Qwiet NextGen Scanning") {
+    stage("Update Permissions") {
         steps {
           script {
             sh """chmod -R 777 /opt/sl-cli"""
