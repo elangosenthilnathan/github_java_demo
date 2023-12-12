@@ -38,24 +38,18 @@ pipeline {
         )
       }
     }
-    stage("Update Qwiet") {
-        steps {
-          script {
-            sh """curl 'https://cdn.shiftleft.io/download/sl' > /tmp/sl && chmod a+rx /tmp/sl"""
-          }
-        }
-    }      
+ 
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """/tmp/sl analyze --version-id 0.9.1890 --wait --app HelloShiftLeft10 --javasrc . """
+            sh """/usr/local/bin/sl analyze --version-id 0.9.1890 --wait --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
     stage("Check-Analysis") {
         steps {
           script {
-            sh """/tmp/sl check-analysis --v2 --config shiftleft.yml --app HelloShiftLeft10 """
+            sh """/usr/local/bin/sl check-analysis --v2 --config shiftleft.yml --app HelloShiftLeft10 """
           }
         }           
     }
