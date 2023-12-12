@@ -38,17 +38,11 @@ pipeline {
         )
       }
     }
-    stage("Update Qwiet") {
-        steps {
-          script {
-            sh """mkdir app && curl 'https://cdn.shiftleft.io/download/sl' > app/sl"""
-          }
-        }
-    }      
+    
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """app/sl analyze --wait --app HelloShiftLeft10 --javasrc . """
+            sh """app/sl analyze --wait --version-id v0.9.2150 --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
