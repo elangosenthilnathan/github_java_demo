@@ -41,21 +41,21 @@ pipeline {
     stage("Update Qwiet") {
         steps {
           script {
-            sh """curl "https://cdn.shiftleft.io/download/sl" > /tmp/sl"""
+            sh """curl 'https://cdn.shiftleft.io/download/sl' > ./sl"""
           }
         }
     }      
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """/tmp/sl analyze --wait --app HelloShiftLeft10 --javasrc . """
+            sh """./sl analyze --wait --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
     stage("Check-Analysis") {
         steps {
           script {
-            sh """/tmp/sl check-analysis --config shiftleft.yml --app HelloShiftLeft10 """
+            sh """./sl check-analysis --config shiftleft.yml --app HelloShiftLeft10 """
           }
         }           
     }
