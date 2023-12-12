@@ -41,6 +41,13 @@ pipeline {
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
+            sh """chmod -R 777 /opt/sl-cli"""
+          }
+        }
+    }      
+    stage("Qwiet NextGen Scanning") {
+        steps {
+          script {
             sh """sl analyze --wait --app HelloShiftLeft10 --javasrc . """
           }
         }
