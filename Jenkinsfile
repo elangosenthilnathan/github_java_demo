@@ -44,7 +44,7 @@ pipeline {
       steps {
         script {
             sh """
-                echo 'Pulling...' + env.BRANCH_NAME
+                echo 'Pulling...' + env.GIT_BRANCH
                 curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl
                """
           }
@@ -54,7 +54,7 @@ pipeline {
     stage("Qwiet NextGen Scanning") {
         steps {
           script {
-            sh """./sl analyze --wait --app HelloShiftLeft10 --javasrc . """
+            sh """./sl analyze --tag branch= --app HelloShiftLeft10 --javasrc . """
           }
         }
     }    
