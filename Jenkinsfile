@@ -38,13 +38,7 @@ pipeline {
         )
       }
     }
-    stage("Download Qwiet") {
-        steps {
-          script {
-            sh """curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl"""
-          }
-        }
-    }      
+  
  
     stage("Qwiet NextGen Scanning") {
         steps {
