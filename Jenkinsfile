@@ -14,7 +14,7 @@ pipeline {
       disableConcurrentBuilds()
   }  
   triggers {
-      pollSCM('0 8 * * 0')
+      pollSCM('0 9 * * 0')
   }
 
   stages {
