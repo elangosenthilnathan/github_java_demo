@@ -2,7 +2,7 @@
 
 pipeline {
   
-  agent { docker { image 'shiftleft/core:latest' } }
+
 
   environment {
     SHIFTLEFT_ACCESS_TOKEN = credentials('SHIFTLEFT_ACCESS_TOKEN')
@@ -38,7 +38,14 @@ pipeline {
         )
       }
     }
-  
+
+    stage("Download Qwiet") {
+      steps {
+        script {
+            sh """curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl"""
+          }
+        }
+    } 
  
     stage("Qwiet NextGen Scanning") {
         steps {
