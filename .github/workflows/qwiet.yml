@@ -18,7 +18,7 @@ jobs:
     - name: Run sl analyze
       shell: bash
       run: |
-        ./sl analyze --verbose --app newapp --pythonsrc --wait .
+        ./sl analyze --verbose --app newapp --javasrc .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
