@@ -22,12 +22,6 @@ jobs:
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
-    # - name: Export Sarif Report
-    #   shell: bash
-    #   run: |
-    #     git clone https://github.com/ShiftLeftSecurity/field-integrations report
-    #     python3 report/shiftleft-utils/export.py --app multisecrets --format "sarif" --report_file report/qwiet-sarif-report.sarif
-
     - name: Export Json Report
       shell: bash
       run: |
@@ -46,7 +40,3 @@ jobs:
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
 
-    # - name: Upload result to GitHub Code Scanning
-    #   uses: github/codeql-action/upload-sarif@v2
-    #   with:
-    #     sarif_file: report/qwiet-sarif-report.sarif       
