@@ -36,7 +36,6 @@ jobs:
     - name: Create Json Report
       shell: bash
       run: |
-        #url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/${{ github.event.repository.name }}/scans/compare?source=scan.3&target=scan.2"
         url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/${{ github.event.repository.name }}/scans/compare?source=tag.branch=${{ github.head_ref }}&target=tag.branch=${{ github.base_ref }}"
         curl -s -X GET -H "Authorization: Bearer ${SHIFTLEFT_ACCESS_TOKEN}" "${url}" -o output.json
         cat output.json
