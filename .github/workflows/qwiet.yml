@@ -3,7 +3,7 @@ name: Qwiet pre-zero Demo
 
 on:
   pull_request: 
-  push:
+
 
 jobs:
   Qwiet-Static-Analysis:
