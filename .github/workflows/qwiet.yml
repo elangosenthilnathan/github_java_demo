@@ -2,7 +2,7 @@
 name: Qwiet pre-zero Demo
 
 on:
-  push:
+  pull_request: 
 
 jobs:
   Qwiet-Static-Analysis:
@@ -18,7 +18,7 @@ jobs:
     - name: Run sl analyze
       shell: bash
       run: |
-        ./sl analyze --verbose --app newapp --javasrc .
+        ./sl analyze --verbose --app ${GITHUB_REPOSITORY#*/} --javasrc --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} . 
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
@@ -33,18 +33,16 @@ jobs:
       run: |
         git clone https://github.com/ShiftLeftSecurity/field-integrations report
         pip3 install -r report/shiftleft-utils/requirements.txt
-        python3 report/shiftleft-utils/export.py --app terraformtest1 --format "json" --report_file report/qwiet-json-report.json  
+        python3 report/shiftleft-utils/export.py --app ${GITHUB_REPOSITORY#*/} --format "json" --report_file report/qwiet-json-report.json  
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}  
 
     - name: Create Json Report
       shell: bash
       run: |
-        url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/terraformtest1/scans/compare?source=scan.3&target=scan.2"
+        #url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/${GITHUB_REPOSITORY#*/}/scans/compare?source=scan.3&target=scan.2"
+        url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/${GITHUB_REPOSITORY#*/}/scans/compare?source=tag.branch=${{ github.head_ref }}&target=tag.branch=${{ github.base_ref }}"
         curl -s -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${SHIFTLEFT_ACCESS_TOKEN}" "${url}" -o output.json
-        cat output.json
-        echo "+++++++++++++++++++++++++++++++++++++++++++++++++"
-        cat report/qwiet-json-report.json
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
 
