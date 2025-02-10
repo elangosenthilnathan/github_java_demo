@@ -2,10 +2,14 @@
 name: Qwiet pre-zero Demo
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
+      - develop
       - main
+    types: [submitted, edited,closed]
 
 
 jobs:
