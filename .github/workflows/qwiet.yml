@@ -3,7 +3,6 @@ name: Qwiet pre-zero Demo
 
 on:
   push:
-  pull-request:
 
 
 jobs:
