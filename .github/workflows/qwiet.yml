@@ -3,14 +3,7 @@ name: Qwiet pre-zero Demo
 
 on:
   push:
-    branches:
-      - develop
-      - master
-  pull_request:
-    branches:
-      - develop
-      - main
-    types: [submitted, edited,closed]
+  pull-request:
 
 
 jobs:
