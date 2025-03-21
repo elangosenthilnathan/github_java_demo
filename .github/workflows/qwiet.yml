@@ -13,7 +13,7 @@ on:
 jobs:
   Qwiet-Static-Analysis:
     runs-on: ubuntu-latest
-    container: shiftleft/core:latest
+    #container: shiftleft/core:latest
 
     permissions:
       actions: read
