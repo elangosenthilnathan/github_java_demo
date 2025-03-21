@@ -30,7 +30,7 @@ jobs:
     - name: Run sl analyze 1
       shell: bash
       run: |
-        ./sl analyze --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+        ./sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
