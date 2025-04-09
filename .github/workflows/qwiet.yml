@@ -21,26 +21,33 @@ jobs:
       security-events: write
 
     steps:
-    - uses: actions/checkout@v4
+    # - uses: actions/checkout@v4
 
-    - name: Download ShiftLeft CLI
-      run: |
-        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
+    # - name: Download ShiftLeft CLI
+    #   run: |
+    #     curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
 
-    - name: Run sl analyze 1
-      shell: bash
-      run: |
-        ./sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+    # - name: Run sl analyze 1
+    #   shell: bash
+    #   run: |
+    #     ./sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+    #   env:
+    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+
+    # - name: Run check-analysis
+    #   shell: bash
+    #   run: |
+    #     ./sl check-analysis --v2 --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --no-build-rules
+    #   env:
+    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
+
+    # - name: Checkout repository  # This is necessary to access your code
+    #   uses: actions/checkout@v3
+      
+    - name: Run Qwiet AI Scan
+      uses: sandy-qwietai/qwietai-actions@main
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-
-    - name: Run check-analysis
-      shell: bash
-      run: |
-        ./sl check-analysis --v2 --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --no-build-rules
-      env:
-        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
-
     # - name: Export Sarif Report qwiet ai
     #   shell: bash
     #   run: |
