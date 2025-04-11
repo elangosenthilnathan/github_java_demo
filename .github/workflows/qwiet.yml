@@ -13,7 +13,7 @@ on:
 jobs:
   Qwiet-Static-Analysis:
     runs-on: ubuntu-latest
-    container: shiftleft/core:latest
+    #container: shiftleft/core:latest
 
     permissions:
       actions: read
@@ -45,7 +45,7 @@ jobs:
     #   uses: actions/checkout@v3
       
       - name: Qwiet preZero
-        uses: elangosenthilnathan/Github_Qwiet_Scanner@v1
+        uses: elangosenthilnathan/Github_Qwiet_Scanner@v2
         with:
           shiftleft-access-token: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
           verbose: true
