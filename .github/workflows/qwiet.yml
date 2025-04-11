@@ -47,11 +47,11 @@ jobs:
       - name: Qwiet preZero
         uses: elangosenthilnathan/Github_Qwiet_Scanner@v1
         with:
-          shiftleft-access-token: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+          #shiftleft-access-token: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
           verbose: false
           importGitHub: false
-        env:
-          SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}          
+        # env:
+        #   SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}          
     
     # - name: Run Qwiet AI Scan
     #   uses: sandy-qwietai/qwietai-actions@main
