@@ -44,7 +44,7 @@ jobs:
     - name: Export Sarif Report to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: qwiet-sarif-report-${{ github.repository_owner }}-${{ github.event.repository.name }}.sarif
+        sarif_file: qwiet-sarif-report-${{ github.repository_owner }}_${{ github.event.repository.name }}.sarif
         category: qwiet-prezero-findings          
 
     - name: Go Based Sarif Export
