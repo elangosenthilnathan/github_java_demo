@@ -9,7 +9,7 @@ on:
 jobs:
   Qwiet-Static-Analysis:
     runs-on: ubuntu-latest
-    container: shiftleft/core:latest
+    #container: shiftleft/core:latest
 
     permissions:
       actions: read
@@ -19,14 +19,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Download ShiftLeft CLI
-    #   run: |
-    #     curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
+    - name: Download ShiftLeft CLI
+      run: |
+        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
 
     - name: Run sl analyze 1
       shell: bash
       run: |
-        sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+        ./sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
@@ -50,7 +50,7 @@ jobs:
     - name: Go Based Sarif Export
       shell: bash
       run: |
-        sl sarif export --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwiet.sarif
+        ./sl sarif export --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwiet.sarif
 
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v3
