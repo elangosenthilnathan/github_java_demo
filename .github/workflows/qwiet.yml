@@ -1,5 +1,5 @@
 ---
-name: Qwiet pre-zero Demo1
+name: Qwiet pre-zero Demo
 
 on:
   pull_request:
@@ -10,11 +10,6 @@ jobs:
   Qwiet-Static-Analysis:
     runs-on: ubuntu-latest
     #container: shiftleft/core:latest
-
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
 
     steps:
     - uses: actions/checkout@v4
@@ -31,26 +26,20 @@ jobs:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
  
+     
 
-    - name: Go Based Sarif Export
+    - name: Run check-analysis
       shell: bash
       run: |
-        ./sl sarif export --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwiet.sarif
+        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_build.yml --create-jira-issues
+        exit_code=$?
+        if [ "$exit_code" -ne 0 ]; then
+          git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
+        fi
+        exit "$exit_code"
+        
       env:
-        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}         
-
-    - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: qwiet.sarif  
-        category: qwiet-prezero          
-
-    # - name: Run check-analysis
-    #   shell: bash
-    #   run: |
-    #     ./sl check-analysis --v2 --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --no-build-rules
-    #   env:
-    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
+        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
 
     # - name: Checkout repository  # This is necessary to access your code
     #   uses: actions/checkout@v3
