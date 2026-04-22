@@ -33,6 +33,7 @@ jobs:
       continue-on-error: true
       run: |
         if ! ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_buildrule.yml ; then
+          echo "++++++++++++++++++++Getting the Author info+++++++++++++"
           git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
           echo "Command failed, but not failing this GitHub Actions step"
         fi
