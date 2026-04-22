@@ -31,7 +31,7 @@ jobs:
     - name: Run check-analysis
       shell: bash
       run: |
-        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_build.yml --create-jira-issues
+        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_buildrule.yml 
         exit_code=$?
         if [ "$exit_code" -ne 0 ]; then
           git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
