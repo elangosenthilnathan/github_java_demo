@@ -21,7 +21,7 @@ jobs:
         Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
         Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
 
-    - name: Download ShiftLeft CLI
+    - name: Display JAVA_HOME
       shell: cmd
       run: | 
         echo %JAVA_HOME%
