@@ -8,39 +8,46 @@ on:
 
 jobs:
   Qwiet-Static-Analysis:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: windows-latest
     #container: shiftleft/core:latest
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Download ShiftLeft CLI
-      run: |
-        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
+      shell: pwsh
+      run: | 
+        Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
+        Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
+      
+    # - name: Download ShiftLeft CLI
+    #   run: |
+    #     curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
 
     - name: Run sl analyze 1
       shell: bash
       run: |
-        ./sl analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+        ./sl.exe analyze --verbose --wait --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
  
      
 
-    - name: Run check-analysis
-      shell: bash
-      continue-on-error: true
-      run: |
-        if ! ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_buildrule.yml ; then
-          echo "++++++++++++++++++++Getting the Author info+++++++++++++"
-          git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
-          echo "Command failed, but not failing this GitHub Actions step"
-        fi
-        exit 0
+    # - name: Run check-analysis
+    #   shell: bash
+    #   continue-on-error: true
+    #   run: |
+    #     if ! ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --config shiftleft_buildrule.yml ; then
+    #       echo "++++++++++++++++++++Getting the Author info+++++++++++++"
+    #       git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
+    #       echo "Command failed, but not failing this GitHub Actions step"
+    #     fi
+    #     exit 0
         
-      env:
-        SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
+    #   env:
+    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
 
     # - name: Checkout repository  # This is necessary to access your code
     #   uses: actions/checkout@v3
