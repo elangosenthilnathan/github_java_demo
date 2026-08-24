@@ -1,16 +1,20 @@
 ---
-name: Qwiet pre-zero Demo
+name: Harness SAST/SCA/Secrets/Container Scanning 
 
 on:
   pull_request:
+    branches:
+      - main  
   workflow_dispatch:
   push:
+    branches:
+      - main  
 
 jobs:
-  Qwiet-Static-Analysis:
+  Harness-Static-Analysis:
     runs-on: ubuntu-latest
     #runs-on: windows-latest
-    #container: shiftleft/core:latest
+    container: shiftleft/core:latest
 
     steps:
     - uses: actions/checkout@v4
@@ -20,82 +24,45 @@ jobs:
     #   run: | 
     #     Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
     #     Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
-
      
-    - name: Download ShiftLeft CLI
+    - name: Download Harness CLI
       run: |
-        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
+        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ${GITHUB_WORKSPACE}/sl 
 
-    - name: Run sl analyze 1
+    - name: Run Harness Scan
       shell: bash
       run: |
-        ./sl analyze --verbose --wait --pythonsrc --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --container joseluisq/static-web-server:2-alpine .
+        ${GITHUB_WORKSPACE}/sl analyze --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
+  Build-Rules:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: Harness-Static-Analysis
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download ShiftLeft CLI
+      run: |
+        curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
     - name: Run check-analysis
       shell: bash
-      continue-on-error: true
+      continue-on-error: false
       run: |
-        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwietreport.md --config shiftleft.yml
-        cat qwietreport.md
+        ${GITHUB_WORKSPACE}/sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY#*/}" \
+            --report-file qwietreport.md --config shiftleft.yml \
+            --github-pr-number=${{github.event.number}} \
+            --github-pr-user=${{ github.repository_owner }} \
+            --github-pr-repo=${{ github.event.repository.name }} \
+            --github-token=${{ secrets.GITHUB_TOKEN }}
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}   
      
 
-    # - name: Run check-analysis
-    #   shell: bash
-    #   continue-on-error: true
-    #   run: |
-    #     if ! ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}"; then
-    #       echo "++++++++++++++++++++Getting the Author info+++++++++++++"
-    #       git show -s --format='%an' "${{ github.event.pull_request.head.sha }}"
-    #       echo "Command failed, but not failing this GitHub Actions step"
-    #     fi
-    #     exit 0
-        
-    #   env:
-    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
-
-    # - name: Checkout repository  # This is necessary to access your code
-    #   uses: actions/checkout@v3
       
 
-      # - uses: elangosenthilnathan/Qwiet-preZero@v6
-      #   with:
-      #     shiftleft-access-token: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-      #     verbose: false # not mandatory
-      #     importGitHub: true # not mandatory
-        
-    
-    # - name: Run Qwiet AI Scan
-    #   uses: sandy-qwietai/qwietai-actions@main
-    #   env:
-    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-    # - name: Export Sarif Report qwiet ai
-    #   shell: bash
-    #   run: |
-    #     git clone https://github.com/ShiftLeftSecurity/field-integrations report
-    #     #git clone --branch Fix-DuplicateFinding-Export --single-branch https://github.com/ShiftLeftSecurity/field-integrations report
-    #     pip3 install -r report/shiftleft-utils/requirements.txt
-    #     python3 report/shiftleft-utils/export.py --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --format "sarif" --report_file report/qwiet-sarif-report.sarif
-    #     chmod -R 777 report
-    #   env:
-    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}        
 
-    # - name: Upload result to GitHub Code Scanning
-    #   uses: github/codeql-action/upload-sarif@v3
-    #   with:
-    #     sarif_file: qwiet-sarif-report-elangosenthilnathan_github_java_demo.sarif  
-    #     category: qwiet-prezero    
 
-    # - name: Create Json Report
-    #   shell: bash
-    #   run: |
-    #     url="https://app.shiftleft.io/api/v4/orgs/eba14690-d605-4f85-b5e3-b2992e9174b0/apps/${{ github.event.repository.name }}/scans/compare?source=tag.branch=${{ github.head_ref }}&target=tag.branch=${{ github.base_ref }}"
-    #     curl -s -X GET -H "Authorization: Bearer ${SHIFTLEFT_ACCESS_TOKEN}" "${url}" -o output.json
-    #     cat output.json
-    #   env:
-    #     SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}    
+ 
 
 
