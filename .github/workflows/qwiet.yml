@@ -35,7 +35,7 @@ jobs:
     - name: Run sl analyze 1
       shell: bash
       run: |
-        ./sl analyze --verbose --wait --javasrc --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" .
+        ./sl analyze --verbose --wait --pythonsrc --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --container joseluisq/static-web-server:2-alpine .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
@@ -44,7 +44,7 @@ jobs:
       continue-on-error: true
       run: |
         ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwietreport.md --no-build-rules
-        echo qwietreport.md
+        cat qwietreport.md
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}   
      
