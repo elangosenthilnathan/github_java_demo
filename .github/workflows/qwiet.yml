@@ -21,13 +21,7 @@ jobs:
     #     Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
     #     Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
 
-    # - name: Display JAVA_HOME
-    #   shell: cmd
-    #   run: | 
-    #     echo %JAVA_HOME%
-    #     set JAVA_HOME=
-    #     echo %JAVA_HOME%
-      
+     
     - name: Download ShiftLeft CLI
       run: |
         curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl 
@@ -43,7 +37,7 @@ jobs:
       shell: bash
       continue-on-error: true
       run: |
-        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwietreport.md --no-build-rules
+        ./sl check-analysis --v2 --multilanguage --verbose --app "${GITHUB_REPOSITORY_OWNER}_${GITHUB_REPOSITORY#*/}" --report-file qwietreport.md --config shiftleft.yml
         cat qwietreport.md
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}   
