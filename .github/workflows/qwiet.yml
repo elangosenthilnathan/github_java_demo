@@ -19,15 +19,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Download ShiftLeft CLI
-    #   shell: pwsh
-    #   run: | 
-    #     Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
-    #     Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
-     
-    - name: Download Harness CLI
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'   # or 'zulu', 'corretto', 'microsoft', etc.
+        java-version: '17'        # set to whatever version you need
+
+    - name: Verify JAVA_HOME is set
+      shell: pwsh
       run: |
-        curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ${GITHUB_WORKSPACE}/sl 
+        if ([string]::IsNullOrEmpty($env:JAVA_HOME)) {
+          Write-Error "JAVA_HOME is not set"
+          exit 1
+        } else {
+          Write-Host "JAVA_HOME is set to: $env:JAVA_HOME"
+          java -version
+        }
+
+    - name: Download ShiftLeft CLI
+      shell: pwsh
+      run: | 
+        Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
+        Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
+     
+    # - name: Download Harness CLI
+    #   run: |
+    #     curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ${GITHUB_WORKSPACE}/sl 
 
     - name: Run Harness Scan
       shell: bash
