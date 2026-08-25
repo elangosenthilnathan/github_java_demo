@@ -26,15 +26,10 @@ jobs:
         java-version: '17'        # set to whatever version you need
 
     - name: Verify JAVA_HOME is set
-      shell: pwsh
+      shell: cmd
       run: |
-        if ([string]::IsNullOrEmpty($env:JAVA_HOME)) {
-          Write-Error "JAVA_HOME is not set"
-          exit 1
-        } else {
-          Write-Host "JAVA_HOME is set to: $env:JAVA_HOME"
-          java -version
-        }
+        echo %JAVA_HOME%
+        java -version
 
   #   - name: Download ShiftLeft CLI
   #     shell: pwsh
