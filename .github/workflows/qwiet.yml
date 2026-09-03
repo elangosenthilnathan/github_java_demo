@@ -31,7 +31,7 @@ jobs:
     #     echo %JAVA_HOME%
     #     java -version
 
-    - name: Download ShiftLeft CLI
+    - name: Download ShiftLeft CLI1
       shell: pwsh
       run: | 
         #Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
