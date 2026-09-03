@@ -44,7 +44,12 @@ jobs:
     - name: Run Harness Scan
       shell: bash
       run: |
+        python3.exe -m pip install --upgrade pip
+        pip3 -m install detect-secrets
         ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
+        dir C:\Users\runneradmin\.shiftleft\secrets_venv\Scripts
+        dir C:\Users\runneradmin\.shiftleft\secrets_venv
+        dir C:\Users\runneradmin\.shiftleft
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
