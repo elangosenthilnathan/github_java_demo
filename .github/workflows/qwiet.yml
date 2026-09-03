@@ -34,8 +34,8 @@ jobs:
     - name: Download ShiftLeft CLI1
       shell: pwsh
       run: | 
-        #Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
-        Expand-Archive -Path sl-0.9.4421-windows-x64.zip -DestinationPath .
+        Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
+        Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
      
   #   # - name: Download Harness CLI
   #   #   run: |
@@ -44,13 +44,13 @@ jobs:
     - name: Run Harness Scan
       shell: bash
       run: |
-        python3.exe -m pip install --upgrade pip
-        pip3 install detect-secrets
-        cd "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages"
-        ls
-        dir
-        set QWIET_EXTERNAL_SECRETS_ALL_FILES=true
-        ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
+        # python3.exe -m pip install --upgrade pip
+        # pip3 install detect-secrets
+        # cd "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages"
+        # ls
+        # dir
+        # set QWIET_EXTERNAL_SECRETS_ALL_FILES=true
+        ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
