@@ -34,8 +34,8 @@ jobs:
     - name: Download ShiftLeft CLI
       shell: pwsh
       run: | 
-        Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
-        Expand-Archive -Path sl-latest-windows-x64.zip -DestinationPath .
+        #Invoke-WebRequest -Uri https://cdn.shiftleft.io/download/sl-latest-windows-x64.zip -UseBasicParsing -OutFile sl-latest-windows-x64.zip
+        Expand-Archive -Path sl-0.9.4421-windows-x64.zip -DestinationPath .
      
   #   # - name: Download Harness CLI
   #   #   run: |
