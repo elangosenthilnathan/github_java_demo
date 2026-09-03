@@ -44,7 +44,7 @@ jobs:
     - name: Run Harness Scan
       shell: bash
       run: |
-        ${GITHUB_WORKSPACE}/sl analyze --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
+        ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
