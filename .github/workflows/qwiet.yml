@@ -49,6 +49,7 @@ jobs:
         cd "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages"
         ls
         dir
+        set QWIET_EXTERNAL_SECRETS_ALL_FILES=true
         ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" --container "${CONTAINER_URL}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
