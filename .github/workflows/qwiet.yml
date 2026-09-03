@@ -46,7 +46,7 @@ jobs:
       run: |
         python3.exe -m pip install --upgrade pip
         pip3 install detect-secrets
-        cd cd "C:\Users\runneradmin\.shiftleft"
+        cd "C:\Users\runneradmin\.shiftleft"
         ls
         dir
         cd "C:\Users\runneradmin\.shiftleft\secrets_venv"
