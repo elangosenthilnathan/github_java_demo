@@ -50,7 +50,7 @@ jobs:
         # ls
         # dir
         # set QWIET_EXTERNAL_SECRETS_ALL_FILES=true
-        ${GITHUB_WORKSPACE}/sl analyze --secrets-only --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" .
+        ${GITHUB_WORKSPACE}/sl analyze --tag branch=${{ github.head_ref }} --verbose --wait --app "${GITHUB_REPOSITORY#*/}" .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
 
